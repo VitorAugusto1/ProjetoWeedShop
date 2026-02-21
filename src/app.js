@@ -19,9 +19,9 @@ app.post("/register", async (req, res) => {
         password
     });
 
-    if (error) return res.status(400).json({ error: error.message });
+    if (error) return res.status(400).json({ message: "Não foi possível registrar o usuário" });
 
-    res.json({ message: 'Usuário registrado com sucesso', user: data.user });
+    res.json({ message: 'Usuário registrado com sucesso'});
 });
 
 app.post('/login', async (req, res) => {
