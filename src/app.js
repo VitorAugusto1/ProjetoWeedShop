@@ -24,7 +24,7 @@ app.post("/register", async (req, res) => {
     res.json({ message: 'Usuário registrado com sucesso'});
 });
 
-app.post('/login', async (req, res) => {
+app.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -37,6 +37,18 @@ app.post('/login', async (req, res) => {
     }
 
     return res.json({ message: 'Login realizado com sucesso'});
+});
+
+app.get("/users", async (req, res) => {
+  const { data, error } = await supabase
+    .from("users")
+    .select("*");
+    
+    if (error) {
+        return res.status(400).json({ message: "Erro ao buscar usuários" });
+    }
+
+    res.json(data);
 });
 
 app.listen(port, ()=> {
