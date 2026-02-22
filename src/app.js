@@ -6,6 +6,7 @@ const port = 3000;
 const users = [];
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+const supabaseAdmin = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 
 
 const app = express();
@@ -40,15 +41,26 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/users", async (req, res) => {
-  const { data, error } = await supabase
-    .from("users")
-    .select("*");
-    
-    if (error) {
-        return res.status(400).json({ message: "Erro ao buscar usuários" });
-    }
+  try {
+    const { data, error } = await supabaseAdmin.auth.admin.listUsers();
 
-    res.json(data);
+    if (error) {
+      return res.status(400).json({ message: error.message });
+    }
+    const users = data.users.map(u => ({
+      id: u.id,
+      email: u.email,
+      created_at: u.created_at,
+      email_verified: u.user_metadata?.email_verified ?? false
+    }));
+
+
+    return res.json(users);
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Erro ao buscar usuários" });
+  }
 });
 
 app.listen(port, ()=> {
