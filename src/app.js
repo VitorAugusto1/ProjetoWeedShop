@@ -63,6 +63,24 @@ app.get("/users", async (req, res) => {
   }
 });
 
+app.delete("/users/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const { data, error } = await supabaseAdmin.auth.admin.deleteUser(id);
+
+    if (error) {
+      return res.status(400).json({ message: "Erro ao deletar usuário", error });
+    }
+
+    return res.json({ message: "Usuário deletado com sucesso" });
+
+  } catch (err) {
+    console.error("Erro interno:", err);
+    return res.status(500).json({ message: "Erro interno ao deletar usuário" });
+  }
+});
+
 app.listen(port, ()=> {
     console.log(`Servidor rodando em http://localhost:${port}`);
 });
