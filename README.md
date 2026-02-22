@@ -1,2 +1,2 @@
 # ProjetoWeedShop
-Uma loja com banco de dados com cadastro de produtos
+Uma loja com banco de dados e cadastro de produtos
