@@ -15,12 +15,37 @@ app.use(express.json());
 app.post("/register", async (req, res) => {
     const { email, password } = req.body;
 
+    if (!email || email.trim() === "") {
+        return res.status(400).json({ message: "Email é obrigatório" });
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({ message: "O email informado é inválido" });
+    }
+
+    if (!password || password.trim() === "") {
+        return res.status(400).json({ message: "Uma senha é obrigatória" });
+    }
+
+    if (password.length < 6) {
+        return res.status(400).json({ message: "A senha deve conter pelo menos 6 caracteres" });
+    }
+
     const { data, error } = await supabase.auth.signUp({
         email,
         password
     });
 
-    if (error) return res.status(400).json({ message: "Não foi possível registrar o usuário" });
+    if (error) {
+      let message = "Erro ao registrar";
+    }
+
+    if (error.message.includes("already registered")) {
+        message = "Email já registrado";
+    }
+
+    if (error) return res.status(400).json({ message });
 
     res.json({ message: 'Usuário registrado com sucesso'});
 });
@@ -28,16 +53,50 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
+    if (!email || email.trim() === "") {
+        return res.status(400).json({ message: "O email é obrigatório" });
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({ message: "O email informado é inválido" });
+    }
+
+    if (!password || password.trim() === "") {
+        return res.status(400).json({ message: "A senha é obrigatória" });
+    }
+
+    if (password.length < 6) {
+        return res.status(400).json({ message: "A senha deve ter pelo menos 6 caracteres" });
+    }
+
     const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
-    });
+    }); 
 
     if (error) {
-        return res.status(400).json({ message: "Credenciais inválidas" });
+        let message = "Erro ao fazer login";
+    
+
+    if (error.message.includes("Invalid login credentials")) {
+            message = "Email ou senha incorretos";
+    }
+    
+    if (error.message.includes("Email not confirmed")) {
+            message = "O email ainda não foi confirmado";
+    }
+    
+    if (error.message.includes("User banned")) {
+            message = "Esta conta está desativada";
+    }
+
+    if (error) {
+        return res.status(400).json({ message });
     }
 
     return res.json({ message: 'Login realizado com sucesso'});
+    }
 });
 
 app.get("/users", async (req, res) => {
