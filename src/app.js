@@ -37,17 +37,17 @@ app.post("/register", async (req, res) => {
         password
     });
 
-    if (error) {
-      let message = "Erro ao registrar";
-    }
+if (error) {
+    let message = "Erro ao registrar";
 
     if (error.message.includes("already registered")) {
         message = "Email já registrado";
     }
 
-    if (error) return res.status(400).json({ message });
+    return res.status(400).json({ message }); 
+}
 
-    res.json({ message: 'Usuário registrado com sucesso'});
+res.json({ message: "Usuário registrado com sucesso", data });
 });
 
 app.post("/login", async (req, res) => {
