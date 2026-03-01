@@ -76,27 +76,21 @@ app.post("/login", async (req, res) => {
     }); 
 
     if (error) {
-        let message = "Erro ao fazer login";
-    
+    let message = "Erro ao fazer login";
 
     if (error.message.includes("Invalid login credentials")) {
-            message = "Email ou senha incorretos";
-    }
-    
-    if (error.message.includes("Email not confirmed")) {
-            message = "O email ainda não foi confirmado";
-    }
-    
-    if (error.message.includes("User banned")) {
-            message = "Esta conta está desativada";
+        message = "Email ou senha incorretos";
+    } else if (error.message.includes("Email not confirmed")) {
+        message = "O email ainda não foi confirmado";
+    } else if (error.message.includes("User banned")) {
+        message = "Esta conta está desativada";
     }
 
-    if (error) {
-        return res.status(400).json({ message });
+    return res.status(400).json({ message });
     }
 
-    return res.json({ message: 'Login realizado com sucesso'});
-    }
+    
+return res.json({ message: "Login realizado com sucesso", data });
 });
 
 app.get("/users", async (req, res) => {
