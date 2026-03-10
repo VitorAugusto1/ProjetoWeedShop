@@ -1,19 +1,19 @@
-# ProjetoWeedShop
+# ProjetoEstoque
 ![Badge versão do programa](https://img.shields.io/badge/version-1.0-9cf?style=for-the-badge "Version") 
 
 ## Descrição
-O projeto WeedShop consiste em um sistema de cadastro de produtos, contendo login de usuario, cadastro do produto no banco de dados. Desenvolvido em JavaScript no banco de dados Supabase, criado para estudos pessoais.
+O projetoEstoque consiste em um sistema de cadastro de produtos, contendo login de usuario, cadastro do produto no banco de dados. Desenvolvido em JavaScript no banco de dados Supabase, criado para estudos pessoais.
 
 
 ## Funcionalidades
-O projeto WeedShop oferece as seguintes funcionalidades:
+O projetoEstoque oferece as seguintes funcionalidades:
 - Capaz de fazer o cadastro de usuario/empresa.
 - Estocar produtos desejados.
 - Deletar e editar informações dos produtos do seu estoque.
 - Exportar para uma planilha excel.
 
 ## 1º Fase do Projeto - BackEnd
-Exemplos para se usar em ferramentas de teste de API (API Testing Tools) como Thunder Client, Postman.  
+Exemplos para se usar em ferramentas de teste de API (API Testing Tools) como Thunder Client, Postman, e etc.  
 1. Registrar Usuario
 - Metodo: POST
 - URL: https://projetoweedshop.onrender.com/register
